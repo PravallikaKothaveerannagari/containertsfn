@@ -13,8 +13,8 @@ env:
   LOGIN_SERVER: 'kprregistry.azurecr.io'                    # set this to login server for your private container registry (e.g. 'contoso.azurecr.io', 'docker.io' )
   REGISTRY: 'kprregistry'                       # set this to proper value for REGISTRY
   NAMESPACE: ''                     # set this to proper value for NAMESPACE
-  IMAGE: 'azurefunctionsimage'                             # set this to proper value for IMAGE
-  TAG: v1.0.0                         # set this to proper value for TAG
+  IMAGE: 'kpcontainerfn'                             # set this to proper value for IMAGE
+  TAG: ${{ github.sha }}             # set this to proper value for TAG
 
 jobs:
   build:
