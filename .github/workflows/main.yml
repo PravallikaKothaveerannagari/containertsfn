@@ -9,7 +9,7 @@ permissions:
   contents: read
 
 env:
-  AZURE_FUNCTION_APP_NAME: 'kpcontainerfn'        # set this to your function app name on Azure
+  AZURE_FUNCTION_APP_NAME: 'kpcontainer'        # set this to your function app name on Azure
   LOGIN_SERVER: 'kprregistry.azurecr.io'                    # set this to login server for your private container registry (e.g. 'contoso.azurecr.io', 'docker.io' )
   REGISTRY: 'kprregistry'                       # set this to proper value for REGISTRY
   NAMESPACE: 'samples'                     # set this to proper value for NAMESPACE
