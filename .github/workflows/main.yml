@@ -1,3 +1,23 @@
+# This workflow will build a container and deploy it to an Azure Functions App on Linux when a commit is pushed to your default branch.
+#
+# This workflow assumes you have already created the target Azure Functions app on Azure.
+#
+# To configure this workflow:
+# 1. Set up the following secrets in your repository:
+#   - AZURE_RBAC_CREDENTIALS
+#   - REGISTRY_USERNAME
+#   - REGISTRY_PASSWORD
+# 2. Change env variables for your configuration.
+# 3. Add this yaml file to your project's .github/workflows/
+# 4. Push your local project to your GitHub Repository
+#
+# For more information on:
+#   - GitHub Actions for Azure: https://github.com/Azure/Actions
+#   - Azure Functions Container Action: https://github.com/Azure/functions-container-action
+#   - Azure Service Principal for RBAC: https://github.com/Azure/functions-action#using-azure-service-principal-for-rbac-as-deployment-credential
+#
+# For more information on GitHub Actions: https://help.github.com/en/categories/automating-your-workflow-with-github-actions
+
 name: Deploy container to Azure Functions App
 
 on:
@@ -9,12 +29,11 @@ permissions:
   contents: read
 
 env:
-  AZURE_FUNCTION_APP_NAME: 'kpcontainer'        # set this to your function app name on Azure
-  LOGIN_SERVER: 'kprregistry.azurecr.io'                    # set this to login server for your private container registry (e.g. 'contoso.azurecr.io', 'docker.io' )
-  REGISTRY: 'kprregistry'                       # set this to proper value for REGISTRY
-  NAMESPACE: 'samples'                     # set this to proper value for NAMESPACE
-  IMAGE: 'kpcnimage'                             # set this to proper value for IMAGE
-  TAG: ${{ github.sha }}             # set this to proper value for TAG
+  AZURE_FUNCTION_APP_NAME: 'kpr12'        # set this to your function app name on Azure
+  LOGIN_SERVER: 'copreg.azurecr.io'                    # set this to login server for your private container registry (e.g. 'contoso.azurecr.io', 'docker.io' )
+  REGISTRY: 'copreg'                       # set this to proper value for REGISTRY                   # set this to proper value for NAMESPACE
+  IMAGE: 'copreg.azurecr.io/kpimage:v1.0.0'                             # set this to proper value for IMAGE
+  TAG: ${{ github.sha }}                          # set this to proper value for TAG
 
 jobs:
   build:
@@ -38,7 +57,7 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           push: true
-          tags: ${{ env.REGISTRY }}/${{ env.NAMESPACE }}/${{ env.IMAGE }}:${{ env.TAG }}
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE }}:${{ env.TAG }}
           file: ./Dockerfile
           context: ./
 
@@ -58,7 +77,7 @@ jobs:
         id: fa
         with:
           app-name: ${{ env.AZURE_FUNCTION_APP_NAME }}
-          image: ${{ env.REGISTRY }}/${{ env.NAMESPACE }}/${{ env.IMAGE }}:${{ env.TAG }}
+          image: ${{ env.REGISTRY }}/${{ env.IMAGE }}:${{ env.TAG }}
 
       # If you want to display or use the functionapp url, then uncomment the task below
       #- name: 'Published functionapp url'
