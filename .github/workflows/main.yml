@@ -33,7 +33,7 @@ env:
   LOGIN_SERVER: 'copreg.azurecr.io'                    # set this to login server for your private container registry (e.g. 'contoso.azurecr.io', 'docker.io' )
   REGISTRY: 'copreg'                       # set this to proper value for REGISTRY                   # set this to proper value for NAMESPACE
   IMAGE: 'copreg.azurecr.io/kpimage:v1.0.0'                             # set this to proper value for IMAGE
-  TAG: ${{ github.sha }}                          # set this to proper value for TAG
+  TAG: v1.0.0                     # set this to proper value for TAG
 
 jobs:
   build:
@@ -57,7 +57,7 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           push: true
-          tags: ${{ env.REGISTRY }}/${{ env.IMAGE }}:${{ env.TAG }}
+          tags: copreg.azurecr.io/kpimage:v1.0.0
           file: ./Dockerfile
           context: ./
 
@@ -77,7 +77,7 @@ jobs:
         id: fa
         with:
           app-name: ${{ env.AZURE_FUNCTION_APP_NAME }}
-          image: ${{ env.REGISTRY }}/${{ env.IMAGE }}:${{ env.TAG }}
+          image: copreg.azurecr.io/kpimage:v1.0.0
 
       # If you want to display or use the functionapp url, then uncomment the task below
       #- name: 'Published functionapp url'
